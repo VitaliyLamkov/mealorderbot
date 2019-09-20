@@ -1,0 +1,18 @@
+package com.mealorderbot.entites;
+import java.sql.Date;
+
+import javax.persistence.*;
+@Entity
+@Table(name = "PRODUCT")
+public class Product {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "PRODUCT_ID")
+	private int	productId;
+	@Column(name = "DATE_PRODUCT")
+	private Date dateProduct;
+	private String name;
+	private Double price;
+	private String nomenclature;
+
+}

@@ -1,0 +1,5 @@
+package com.mealorderbot.entites;
+
+public class Order {
+
+}

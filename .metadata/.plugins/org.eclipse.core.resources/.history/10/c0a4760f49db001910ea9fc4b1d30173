@@ -1,0 +1,5 @@
+package com.mealorderbot.dao;
+
+public class ProductDao {
+
+}

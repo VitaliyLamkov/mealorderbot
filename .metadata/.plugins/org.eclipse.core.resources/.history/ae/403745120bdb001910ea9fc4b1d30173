@@ -1,0 +1,8 @@
+package com.mealorderbot.entites;
+import javax.persistence.*;
+
+public class OrderItems {
+	private int orderItemsId;
+	private int orderId;
+	private  int productId;
+}

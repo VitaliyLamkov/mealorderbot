@@ -1,0 +1,47 @@
+package com.mealorderbot.dao;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
+import com.mealorderbot.entites.Product;
+
+import java.util.List;
+
+public class ProductDao {
+	final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+		    .configure()
+		    .build();
+	private static SessionFactory sessionFactory;
+	
+	public ProductDao() throws Exception {
+		 try {
+			    sessionFactory = new MetadataSources(registry)
+			      .buildMetadata()
+			      .buildSessionFactory();
+			  } catch (Exception e) {
+			    StandardServiceRegistryBuilder.destroy(registry);
+			    throw e;
+			}
+	}
+	
+	public void add() throws Exception {
+		  Product greetJpa = new Product();
+		  greetJpa.setGreeting("Bye");
+		  greetJpa.setTarget("JPA");
+
+		  
+
+		  
+		 
+
+		  Session session = sessionFactory.openSession();
+		  session.beginTransaction();
+		  session.save(greetHibernate);
+		  session.save(greetJpa);
+		  session.getTransaction().commit();
+		  session.close();
+		 }
+}

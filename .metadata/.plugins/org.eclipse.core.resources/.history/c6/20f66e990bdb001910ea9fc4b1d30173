@@ -1,0 +1,47 @@
+package com.mealorderbot.entites;
+import javax.persistence.*;
+@Entity
+@Table(name = "ORDERITEMS")
+public class OrderItems {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ORDERITEMS_ID")
+	private int orderItemsId;
+	@Column(name = "ORDER_ID")
+	private int orderId;
+	@Column(name = "PRODUCT_ID")
+	private  int productId;
+	 public OrderItems() {
+		// TODO Auto-generated constructor stub
+	}
+	public OrderItems(int orderItemsId, int orderId, int productId) {
+		super();
+		this.orderItemsId = orderItemsId;
+		this.orderId = orderId;
+		this.productId = productId;
+	}
+	public int getOrderItemsId() {
+		return orderItemsId;
+	}
+	public void setOrderItemsId(int orderItemsId) {
+		this.orderItemsId = orderItemsId;
+	}
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+	@Override
+	public String toString() {
+		return "OrderItems [orderItemsId=" + orderItemsId + ", orderId=" + orderId + ", productId=" + productId + "]";
+	}
+	 
+	
+}

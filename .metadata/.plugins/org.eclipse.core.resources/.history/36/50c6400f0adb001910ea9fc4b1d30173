@@ -1,0 +1,10 @@
+package com.mealorderbot.entites;
+
+import java.sql.Date;
+
+public class Order {
+	private int orderId;
+	private String number;
+	private Date dateOrder;
+	private String telegramId;
+}

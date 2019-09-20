@@ -1,0 +1,7 @@
+package com.mealorderbot.entites;
+import javax.persistence.*;
+
+public class Product {
+	
+
+}

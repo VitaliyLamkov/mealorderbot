@@ -1,0 +1,94 @@
+package com.mealorderbot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
+
+
+public class Bot  extends TelegramLongPollingBot{
+//	 ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+	 
+	public void onUpdateReceived(Update update) {
+		System.out.println("1go!!!!!!!!!!!!");
+		// TODO Auto-generated method stub
+		if (update.hasMessage() && update.getMessage().hasText()) {
+//	        SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+//	        		.setChatId(update.getMessage().getChatId())
+//	                .setText(update.getMessage().getText());
+	        String txt = update.getMessage().getText();
+	        SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
+	        message.enableMarkdown(true);
+	        
+//	        message.setReplyMarkup(replyKeyboardMarkup);
+	        
+	      
+			if (txt.equals("/start")) {
+				
+		        
+				message.setChatId(update.getMessage().getChatId());
+				message.setText("Hello, world! This is simple bot! Круто бот работает");
+
+			}
+	        try {
+//	        	setButtons(message);
+	            execute(message); // Call method to send the message
+	            
+	        } catch (TelegramApiException e) {
+	            e.printStackTrace();
+	        }
+	}
+		
+
+	}
+	public synchronized void setButtons(SendMessage sendMessage) {
+        // Создаем клавиуатуру
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        // Создаем список строк клавиатуры
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        // Первая строчка клавиатуры
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        // Добавляем кнопки в первую строчку клавиатуры
+        keyboardFirstRow.add(new KeyboardButton("Привет"));
+
+        // Вторая строчка клавиатуры
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        // Добавляем кнопки во вторую строчку клавиатуры
+        keyboardSecondRow.add(new KeyboardButton("Помощь");
+
+        // Добавляем все строчки клавиатуры в список
+        keyboard.add(keyboardFirstRow);
+        keyboard.add(keyboardSecondRow);
+        // и устанваливаем этот список нашей клавиатуре
+        replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+	public String getBotUsername() {
+		System.out.println("2go!!!!!!!!!!!!");
+		// TODO Auto-generated method stub
+		return "mealorderbot";
+	}
+
+
+	@Override
+	public String getBotToken() {
+		// TODO Auto-generated method stub
+		System.out.println("3go!!!!!!!!!!!!");
+		return "845662715:AAHGg6EeEkc1QOitAhsNfPEH5NDp8-ZFZ-U";
+	}
+}

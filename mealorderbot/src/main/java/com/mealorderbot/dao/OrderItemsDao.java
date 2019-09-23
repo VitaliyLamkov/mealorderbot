@@ -7,18 +7,20 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import com.mealorderbot.entites.Order;
+import com.mealorderbot.entites.OrderItems;
 import com.mealorderbot.entites.Product;
 
 import java.sql.Date;
 import java.util.List;
 
-public class ProductDao {
+public class OrderItemsDao {
 	final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 		    .configure()
 		    .build();
 	private static SessionFactory sessionFactory;
 	
-	public ProductDao() throws Exception {
+	public OrderItemsDao() throws Exception {
 		 try {
 			    sessionFactory = new MetadataSources(registry)
 			      .buildMetadata()
@@ -29,45 +31,54 @@ public class ProductDao {
 			}
 	}
 	
-	public void add(String dateProduct, String name, Double price, String nomenclature, Boolean actual)  {
-		  	Session session = sessionFactory.openSession();
+	public Integer add(int orderId, int productId)  {
+		 Session session = sessionFactory.openSession();
 	        Transaction transaction = null;
+	        Integer orderItemsId = null;
+
 	        transaction = session.beginTransaction();
-	        Product productEntite = new Product(dateProduct, name, price, nomenclature, actual);
-	        session.save(productEntite);
+	        OrderItems orderItems = new OrderItems( orderId, productId);
+	        orderItemsId = (Integer) session.save(orderItems);
 	        transaction.commit();
 	        session.close();
+	        return orderItemsId;
 		 }
 	
-	 public List<Product> listActual() {
+	 public List<OrderItems> listOrder(int orderId) {
 		 	
 	        Session session = sessionFactory.openSession();
 	        Transaction transaction = null;
 
 	        transaction = session.beginTransaction();
-	        List<Product> products = session.createQuery("FROM Product where actual=true").list();
+	        List<OrderItems> orderItems = session.createQuery("FROM OrderItems where ORDER_ID=:orderId")
+	        		.setParameter("orderId", orderId)
+	        		.list();
 	        session.close();
-	        return products;
+	        transaction.commit();
+	        return orderItems;
 	    }
-	 public List<Product> listNotActual() {
-		 	StringBuilder str = new StringBuilder("");
-	        Session session = sessionFactory.openSession();
-	        Transaction transaction = null;
 
-	        transaction = session.beginTransaction();
-	        List<Product> products = session.createQuery("FROM Product where atual=false").list();
-	        session.close();
-	        return products;
-	    }
-	 public Product getProductById(int productId) {
+	 public OrderItems getById(int orderItemsId) {
 		 	
 	        Session session = sessionFactory.openSession();
 	        Transaction transaction = null;
 	        transaction = session.beginTransaction();
-	        Product product = session.byId(Product.class).getReference(productId);
+	        OrderItems orderItems = session.byId(OrderItems.class).getReference(orderItemsId);
 	        transaction.commit();
 	        session.close();
-	        return product;
+	        return orderItems;
 		 
 	 }
+	 
+	 public void remove(int orderItemsId) {
+	        Session session = sessionFactory.openSession();
+	        Transaction transaction = null;
+
+	        transaction = session.beginTransaction();
+	        OrderItems orderItems = (OrderItems) session.get(OrderItems.class, orderItemsId);
+	        session.delete(orderItems);
+	        transaction.commit();
+	        session.close();
+	    }
+	 
 }

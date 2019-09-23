@@ -1,5 +1,6 @@
 package com.mealorderbot.entites;
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.*;
 @Entity
@@ -17,17 +18,24 @@ public class Product {
 	private Double price;
 	@Column(name = "NOMENCLATURE")
 	private String nomenclature;
+	@Column(name = "ACTUAL")
+	private boolean actual;
+
+	@Column
+	@ElementCollection(targetClass=OrderItems.class)
+	private Set<OrderItems> orderItems;
 	
 	public Product() {
 		// TODO Auto-generated constructor stub
 	}
-	public Product( String dateProduct, String name, Double price, String nomenclature) {
+	public Product( String dateProduct, String name, Double price, String nomenclature,boolean actual) {
 		
 //		setProductId(productId);
 		setDateProduct(dateProduct);
 		setName(name);
 		setPrice(price);
 		setNomenclature(nomenclature);
+		setActual(actual);
 	}
 	
 	public int getProductId() {
@@ -71,11 +79,25 @@ public class Product {
 	public void setNomenclature(String nomenclature) {
 		this.nomenclature = nomenclature;
 	}
+	
+	public void setActual(boolean actual) {
+		this.actual = actual;
+	}
+	public boolean isActual() {
+		return actual;
+	}
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	public Set<OrderItems> getOrderItems() {
+		return orderItems;
+	}
 
+	
 	@Override
 	public String toString() {
-		return "Product [productId=" + productId + ", dateProduct=" + dateProduct + ", name=" + name + ", price="
-				+ price + ", nomenclature=" + nomenclature + "]";
+//		return "Product [productId=" + productId + ", dateProduct=" + dateProduct + ", name=" + name + ", price="
+//				+ price + ", nomenclature=" + nomenclature + "]";
+		
+		return "Название: " + name + " цена=" + price + "р. " + nomenclature ;
 	}
 	
 

@@ -1,6 +1,8 @@
 package com.mealorderbot.entites;
 
-import java.sql.Date;
+
+import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.*;
 @Entity
@@ -11,19 +13,23 @@ public class Order {
 	@Column(name = "ORDER_ID")
 	private int orderId;
 	@Column(name = "NUMBER")
-	private String number;
+	private int number;
 	@Column(name = "DATE_ORDDER")
 	private Date dateOrder;
 	@Column(name = "TELEGRAM_ID")
 	private String telegramId;
 	
+	@Column
+	@ElementCollection(targetClass=OrderItems.class)
+	private Set<OrderItems> orderItems;
+	
 	public Order() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Order(int orderId, String number, Date dateOrder, String telegramId) {
+	public Order( int number, Date dateOrder, String telegramId) {
 		
-		setOrderId(orderId);
+//		setOrderId(orderId);
 		setNumber(number);
 		setDateOrder(dateOrder);
 		setTelegramId(telegramId);
@@ -37,11 +43,11 @@ public class Order {
 		this.orderId = orderId;
 	}
 
-	public String getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
-	public void setNumber(String number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
@@ -67,4 +73,8 @@ public class Order {
 				+ telegramId + "]";
 	}
 	
+//	@OneToMany(mappedBy = "ORDERITEMS", cascade = CascadeType.ALL)
+	public Set<OrderItems> getOrderItems() {
+		return orderItems;
+	}
 }
